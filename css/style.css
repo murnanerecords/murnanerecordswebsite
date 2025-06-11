@@ -146,18 +146,57 @@ body {
 /* Artist Name Styles - Adjusted for full screen height */
 .artist-name {
     position: absolute;
-    bottom: 40px; /* Increased bottom value to ensure visibility on taller screens */
+    bottom: 40px;
     left: 50px;
     font-family: 'Luckiest Guy', cursive, sans-serif;
-    color: #e4e2dd; /* Reverted to original color */
-    font-size: 3.5em; /* Original desktop font size */
+    color: #e4e2dd;
+    /* font-size: 3.5em; Removed to manage size of elements inside */
     text-transform: lowercase;
-    z-index: 50; /* Reverted to original z-index */
+    z-index: 50;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    pointer-events: none;
+    pointer-events: none; /* Allows clicks to pass through to carousel items initially */
     white-space: nowrap;
-    opacity: 0; /* <--- Start with opacity 0 by default */
-    transition: opacity 1s ease-in-out; /* <--- Add transition for smooth fade */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align items to the left (start) */
+    gap: 10px; /* Space between the name, subtitle, and button */
+}
+
+.artist-name::before {
+    content: attr(data-artist-name); /* Use a data attribute for the name */
+    font-size: 3.5em; /* Apply original font size here */
+    text-transform: lowercase;
+}
+
+/* Style for the new subtitle */
+.artist-subtitle {
+    font-size: 1.2em; /* Adjust subtitle font size */
+    color: #e4e2dd;
+    margin: 0; /* Remove default paragraph margin */
+    text-transform: capitalize; /* Or lowercase, depending on desired style */
+    pointer-events: auto; /* Make subtitle clickable if it were a link */
+}
+
+/* Style for the new button */
+.carousel-button {
+    pointer-events: auto; /* Make the button clickable */
+    background-color: #e4e2dd; /* Button background color */
+    color: #292929; /* Button text color */
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    text-transform: lowercase;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.carousel-button:hover {
+    background-color: #c9c7c2;
+    color: #1a1a1a;
 }
 
 
@@ -217,12 +256,14 @@ body {
 
     /* Mobile Artist Name Styles (as before) */
     .artist-name {
-        font-size: 2.2em;
-        bottom: 20px; /* Reverted to original mobile positioning */
+        /* font-size: 2.2em; Removed from here */
+        bottom: 20px;
         left: 20px;
         color: #e4e2dd;
         z-index: 50;
+        gap: 8px; /* Slightly less gap on mobile */
     }
+    
 }
 
 @media (min-width: 768px) {
