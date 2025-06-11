@@ -1,5 +1,10 @@
 /* css/style.css */
 
+/* Add this universal box-sizing rule at the very top of your file */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Add your chosen Google Font @import here, e.g.: */
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
@@ -133,7 +138,7 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    position: relative;
+    position: relative; /* Crucial for absolute positioning of contents */
 }
 
 .carousel-item img {
@@ -240,28 +245,102 @@ body {
         padding: 15px 20px;
     }
 
-    /* Mobile Carousel Styles: Full width, responsive height (as before) */
+    /* Mobile Carousel Styles: Set to 16:9 aspect ratio */
     .artist-carousel {
         width: 100vw;
-        height: 60vh; /* Retains its 60% viewport height on mobile */
+        padding-top: 56.25%; /* (9 / 16) * 100% = 56.25% for 16:9 aspect ratio */
+        height: 0; /* Important: set height to 0 when using padding-top for aspect ratio */
+        position: relative; /* Ensure position for absolutely positioned children */
+        overflow: hidden; /* Ensure content outside this aspect ratio box is clipped */
     }
 
     .carousel-inner {
-        height: 100%;
+        position: absolute; /* Occupy the space defined by padding-top */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; /* Will fill the space of the aspect-ratio parent */
+        display: flex;
+        flex-direction: row;
+        transition: transform 1s ease-in-out;
     }
 
     .carousel-item {
-        min-height: 100%;
+        min-width: 100%;
+        min-height: 100%; /* Ensure item fills the inner carousel */
+        flex-shrink: 0;
+        display: flex; /* Make it a flex container */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        margin: 0;
+        padding: 0;
+        position: relative;
+        overflow: hidden; /* Crucial to prevent content from overflowing this item */
     }
 
-    /* Mobile Artist Name Styles (as before) */
+    .carousel-item img {
+        /*
+           CRITICAL FIX FOR IMAGE SIZE:
+           We're using object-fit: contain to ensure the whole image is visible.
+           If the image is still too large, it means a more specific rule is overriding these.
+           Ensure no 'position: absolute' or fixed dimensions are on the image itself.
+        */
+        width: 100%; /* Image should always try to be 100% of its parent's width */
+        height: 100%; /* Image should always try to be 100% of its parent's height */
+        max-width: 100%; /* Safeguard: never exceed parent width */
+        max-height: 100%; /* Safeguard: never exceed parent height */
+
+        object-fit: contain; /* Scales down to fit, showing entire image (might have bars) */
+        object-position: center; /* Centers the image within the container */
+        display: block; /* Ensures proper block rendering */
+
+        /* Remove any previous position/transform properties that might cause overflow */
+        position: static; /* Ensure no absolute/fixed positioning on the image */
+        top: auto;
+        left: auto;
+        bottom: auto;
+        right: auto;
+        transform: none; /* Reset any transforms that might move/scale it incorrectly */
+    }
+
+    /* Mobile Artist Name Styles - CRITICAL CHANGES HERE */
     .artist-name {
-        /* font-size: 2.2em; Removed from here */
-        bottom: 20px;
-        left: 20px;
-        color: #e4e2dd;
+        bottom: 20px; /* Adjusted bottom spacing for mobile */
+        left: 20px; /* Adjusted left spacing for mobile */
+        right: 20px; /* NEW: Add right constraint to prevent overflow */
+        max-width: calc(100% - 40px); /* NEW: Limit width, accounting for left/right padding */
+        white-space: normal; /* CRITICAL: Allow text to wrap for mobile */
+        text-align: left; /* Ensure text aligns to the left within its new constrained width */
         z-index: 50;
         gap: 8px; /* Slightly less gap on mobile */
+        /* Ensure font sizes are explicitly set or overridden here for mobile */
+        /* Removed opacity and transition from here, as they are global on .artist-name */
+        /* It's okay that display:flex, flex-direction: column, align-items: flex-start are global */
+    }
+    
+    .artist-name::before {
+        font-size: 2em; /* Adjusted font size for the artist name on mobile */
+        line-height: 1.2; /* Adjust line height for better readability if it wraps */
+        text-transform: lowercase; /* Keep consistent with global style */
+        /* Ensure text-wrapping properties are here too if they were removed */
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .artist-subtitle {
+        font-size: 1em; /* Adjusted subtitle font size for mobile */
+        line-height: 1.3; /* Ensure subtitle wraps nicely */
+        /* Ensure text-wrapping properties are here too if they were removed */
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .carousel-button {
+        padding: 10px 20px; /* Smaller button for mobile */
+        font-size: 0.9em; /* Smaller font size for button */
+        /* Removed other button styles as they are global and inherited */
     }
     
 }
@@ -491,9 +570,9 @@ body {
 }
 
 /* Ensure existing .artist-card styles don't conflict,
-   especially `box-shadow` and `transform` on hover,
-   they should apply to the card container.
-   The image specific hover effect should be on the `img` itself.
+    especially `box-shadow` and `transform` on hover,
+    they should apply to the card container.
+    The image specific hover effect should be on the `img` itself.
 */
 .artist-card:hover {
     transform: translateY(-10px); /* Lift effect on hover (existing) */
