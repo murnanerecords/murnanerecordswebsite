@@ -1,10 +1,24 @@
+/* css/style.css */
+
+/* Add your chosen Google Font @import here, e.g.: */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+main {
+    margin-top: 68px; /* Adjust this value to match your header's actual height */
+}
+
 /* Universal Styles & Body */
-body {
+html, body {
     margin: 0;
-    font-family: Arial, sans-serif; /* You can choose a better font */
-    background-color: #000; /* Or a dark background */
-    color: #fff;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+body {
+    font-family: 'Luckiest Guy', cursive, sans-serif;
+    background-color: #292929;
+    color: #e4e2dd;
 }
 
 /* Header Styles */
@@ -13,13 +27,9 @@ body {
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000;
-    transition: background-color 0.3s ease-in-out;
-    background-color: transparent; /* Default transparent */
-}
-
-#main-header.scrolled {
-    background-color: #292929; /* Background color when scrolled */
+    z-index: 1000; /* This ensures the header is on top of the carousel */
+    /* transition: background-color 0.3s ease-in-out; */
+    background-color: #292929;
 }
 
 #main-header .header-content {
@@ -27,199 +37,141 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
+    position: relative;
 }
 
 .logo img {
-    width: 300px; /* 600px / 2 */
-    height: 38px;  /* 76px / 2 */
+    width: 300px;
+    height: 38px;
     display: block;
 }
 
-/* Desktop Navigation */
-.desktop-nav {
-    display: none; /* Hidden by default, shown on desktop */
-}
-
-.desktop-nav .menu-icon {
-    cursor: pointer;
-    padding: 10px;
-    position: relative;
-    z-index: 1001; /* Ensure it's above the menu list when open */
-}
-
-.desktop-nav .menu-icon .bar {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    margin: 5px 0;
-    transition: 0.4s;
-}
-
-.desktop-nav .menu-list {
-    display: none; /* Initially hidden */
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%; /* Take full width when open */
-    height: 100vh; /* Take full height when open */
-    background-color: rgba(41, 41, 41, 0.95); /* Dark background with transparency */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.desktop-nav .menu-list.open {
-    display: flex; /* Show when open */
-    opacity: 1;
-    visibility: visible;
-}
-
-.desktop-nav .menu-list li {
-    margin: 15px 0;
-}
-
-.desktop-nav .menu-list a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.8em;
-    text-transform: lowercase;
-    transition: color 0.3s ease;
-}
-
-.desktop-nav .menu-list a:hover {
-    color: #bbb; /* Lighter color on hover */
-}
-
-/* Mobile Navigation */
-.mobile-nav {
-    display: flex; /* Shown by default, hidden on desktop */
+/* Main Navigation Styles */
+.main-nav {
+    display: flex;
     align-items: center;
 }
 
-.mobile-nav .mobile-menu-list {
+.main-nav .menu-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 20px; /* Space between items */
+    gap: 30px;
 }
 
-.mobile-nav .mobile-menu-list li a {
-    color: #fff;
+.main-nav .menu-list li a {
+    color: #e4e2dd;
     text-decoration: none;
     font-size: 1em;
     text-transform: lowercase;
     transition: color 0.3s ease;
 }
 
-.mobile-nav .mobile-menu-list li a:hover {
-    color: #bbb;
+.main-nav .menu-list li a:hover {
+    color: #c9c7c2;
 }
 
-.mobile-nav .mobile-menu-toggle {
+/* Menu Toggle (Hamburger Icon) */
+.menu-toggle {
     cursor: pointer;
     padding: 10px;
-    margin-left: 20px; /* Space from menu items */
+    display: none;
+    margin-left: 20px;
+    position: relative;
+    z-index: 1001;
 }
 
-.mobile-nav .mobile-menu-toggle .bar {
+.menu-toggle .bar {
     width: 25px;
     height: 3px;
-    background-color: #fff;
+    background-color: #e4e2dd;
     margin: 5px 0;
     transition: 0.4s;
 }
 
-/* When mobile menu is active/open */
-.mobile-nav .mobile-menu-toggle.open .bar:nth-child(1) {
+/* When mobile menu is active/open (hamburger to X) */
+.menu-toggle.open .bar:nth-child(1) {
     transform: rotate(-45deg) translate(-5px, 6px);
 }
 
-.mobile-nav .mobile-menu-toggle.open .bar:nth-child(2) {
+.menu-toggle.open .bar:nth-child(2) {
     opacity: 0;
 }
 
-.mobile-nav .mobile-menu-toggle.open .bar:nth-child(3) {
+.menu-toggle.open .bar:nth-child(3) {
     transform: rotate(45deg) translate(-5px, -6px);
 }
 
-/* Hero Carousel */
+/* Hero Carousel - UPDATED TO FILL SCREEN HEIGHT ON DESKTOP */
 .artist-carousel {
-    height: 100vh; /* Takes full viewport height */
-    width: 100vw; /* Takes full viewport width */
-    overflow: hidden;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
+
+    /* Desktop Styles: Full width, fills screen height (behind header) */
+    width: 100vw;
+    height: calc(100vh - 68px); /* Changed to fill the viewport height */
 }
 
 .carousel-inner {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
-    animation: scroll-vertical 20s linear infinite; /* Adjust time for speed */
+    height: 100%; /* Will now be 100% of 100vh */
+    display: flex;
+    flex-direction: row;
+    transition: transform 1s ease-in-out;
 }
 
 .carousel-item {
-    width: 100%;
-    height: 100vh; /* Each item takes full height */
+    min-width: 100%;
+    min-height: 100%; /* Will now be 100% of 100vh */
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
 }
 
 .carousel-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cover the entire area */
+    object-fit: cover;
     display: block;
 }
 
-/* Keyframes for Vertical Carousel Scroll */
-@keyframes scroll-vertical {
-    0% {
-        transform: translateY(0%);
-    }
-    100% {
-        transform: translateY(-100%); /* Adjust based on number of items */
-    }
+/* Artist Name Styles - Adjusted for full screen height */
+.artist-name {
+    position: absolute;
+    bottom: 40px; /* Increased bottom value to ensure visibility on taller screens */
+    left: 50px;
+    font-family: 'Luckiest Guy', cursive, sans-serif;
+    color: #e4e2dd; /* Reverted to original color */
+    font-size: 3.5em; /* Original desktop font size */
+    text-transform: lowercase;
+    z-index: 50; /* Reverted to original z-index */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0; /* <--- Start with opacity 0 by default */
+    transition: opacity 1s ease-in-out; /* <--- Add transition for smooth fade */
 }
 
-/* Responsive Design */
-@media (min-width: 768px) {
-    /* Desktop-specific styles */
-    .desktop-nav {
-        display: block; /* Show desktop nav */
-    }
 
-    .mobile-nav {
-        display: none; /* Hide mobile nav */
-    }
-
-    #main-header .header-content {
-        padding: 15px 50px; /* More padding on desktop */
-    }
-
-    /* Desktop menu icon and list (hidden by default, shown on click) */
-    .desktop-nav .menu-list {
-        display: none; /* Hide by default */
-        position: fixed; /* Keep it fixed even with scroll */
+/* Responsive Design - Mobile First Approach */
+@media (max-width: 767px) {
+    .main-nav .menu-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         width: 100%;
         height: 100vh;
         background-color: rgba(41, 41, 41, 0.95);
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         opacity: 0;
@@ -227,9 +179,154 @@ body {
         transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
-    .desktop-nav .menu-list.open {
+    .main-nav .menu-list.open {
+        display: flex;
         opacity: 1;
         visibility: visible;
-        display: flex; /* Show when open */
+    }
+
+    .main-nav .menu-list li {
+        margin: 15px 0;
+    }
+
+    .main-nav .menu-list li a {
+        font-size: 1.8em;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    #main-header .header-content {
+        padding: 15px 20px;
+    }
+
+    /* Mobile Carousel Styles: Full width, responsive height (as before) */
+    .artist-carousel {
+        width: 100vw;
+        height: 60vh; /* Retains its 60% viewport height on mobile */
+    }
+
+    .carousel-inner {
+        height: 100%;
+    }
+
+    .carousel-item {
+        min-height: 100%;
+    }
+
+    /* Mobile Artist Name Styles (as before) */
+    .artist-name {
+        font-size: 2.2em;
+        bottom: 20px; /* Reverted to original mobile positioning */
+        left: 20px;
+        color: #e4e2dd;
+        z-index: 50;
+    }
+}
+
+@media (min-width: 768px) {
+    .main-nav .menu-list {
+        display: flex !important;
+        position: static;
+        background-color: transparent;
+        height: auto;
+        width: auto;
+        opacity: 1;
+        visibility: visible;
+        flex-direction: row;
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    #main-header .header-content {
+        padding: 15px 50px;
+    }
+}
+
+/* Artists Section Styles */
+.content-section {
+    padding: 80px 30px; /* Top/bottom padding, side padding */
+    text-align: center;
+    background-color: #292929; /* A slightly different dark background */
+}
+
+.section-title h2 {
+    font-size: 3.5em; /* Large heading, similar to carousel text */
+    text-transform: lowercase;
+    margin-bottom: 60px;
+    color: #e4e2dd;
+}
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Forces exactly 4 columns on desktop */
+    gap: 40px; /* Space between cards */
+    max-width: 1200px; /* Max width for the grid to prevent it from getting too wide */
+    margin: 0 auto; /* Center the grid */
+}
+
+.artist-card {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.artist-card img {
+    width: 100%;
+    /* Removed fixed height. Using aspect-ratio for square images. */
+    aspect-ratio: 1 / 1; /* Makes the image maintain a 1:1 (square) aspect ratio */
+    object-fit: cover; /* Ensures images fill the square space without distortion */
+    display: block;
+}
+
+.artist-card h3 {
+    font-size: 1.8em;
+    text-transform: lowercase;
+    color: #e4e2dd;
+    margin: 20px 15px; /* Spacing for the name */
+}
+
+/* Responsive adjustments for artists section */
+@media (max-width: 991px) { /* Adjust breakpoint for tablets/smaller desktops */
+    .artists-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
+        gap: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .content-section {
+        padding: 60px 20px;
+    }
+
+    .section-title h2 {
+        font-size: 2.5em;
+        margin-bottom: 40px;
+    }
+
+    .artists-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+        gap: 20px;
+    }
+
+    .artist-card h3 {
+        font-size: 1.5em;
+        margin: 15px 10px;
+    }
+}
+
+@media (max-width: 480px) { /* For very small mobile screens */
+    .artists-grid {
+        grid-template-columns: 1fr; /* Single column on very small screens */
     }
 }
