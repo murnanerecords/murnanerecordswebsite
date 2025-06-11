@@ -330,3 +330,232 @@ body {
         grid-template-columns: 1fr; /* Single column on very small screens */
     }
 }
+
+/* Artist Card Overlay & Hover Effects */
+.artist-card {
+    position: relative; /* Make the artist-card a positioning context for its children */
+    overflow: hidden; /* Ensure anything outside the card is clipped */
+}
+
+.artist-card-inner {
+    position: relative; /* This new div will hold the image and text, and its size will define the overlay area */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure it takes full height of the card */
+}
+
+.artist-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease; /* Smooth scale effect for image */
+}
+
+.artist-card h3 {
+    flex-grow: 1; /* Allows h3 to take remaining space below the image */
+    display: flex;
+    align-items: center; /* Vertically center if needed */
+    justify-content: center; /* Horizontally center if needed */
+    text-align: center;
+}
+
+
+.artist-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex; /* Changed to flex */
+    flex-direction: column; /* Stack content vertically within the overlay */
+    justify-content: space-between; /* Pushes top content to top, bottom content to bottom */
+    align-items: center; /* Center content horizontally within the overlay */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    padding: 20px; /* Add padding to control spacing from edges */
+    box-sizing: border-box;
+}
+
+.artist-card:hover .artist-overlay {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.artist-card:hover .artist-card-inner img {
+    transform: scale(1.05);
+}
+
+.overlay-top-content {
+    width: 100%; /* Take full width of parent (with padding considered) */
+    display: flex;
+    justify-content: space-between; /* Pushes items to far ends */
+    align-items: center; /* Vertically center items within this row */
+    padding: 0; /* No extra padding here, handled by .artist-overlay */
+    box-sizing: border-box;
+    /* This element itself starts with opacity 0 and transitions */
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s; /* Slight delay to show after overlay */
+}
+
+.artist-card:hover .overlay-top-content {
+    opacity: 1;
+}
+
+/* "View Website" Link */
+.view-website-link {
+    color: #e4e2dd;
+    text-decoration: none;
+    font-size: 0.8em; /* Adjusted font size for "visit website" */
+    text-transform: lowercase;
+    z-index: 2; /* Keep z-index if other elements might overlap */
+}
+
+.artist-card:hover .view-website-link {
+    opacity: 1; /* Show on hover */
+}
+
+.view-website-link:hover {
+    color: #c9c7c2;
+}
+
+
+/* Social Icons within Overlay */
+.social-icons-overlay {
+    display: flex;
+    gap: 3px; /* Very small gap between icons */
+    z-index: 2; /* Keep z-index if other elements might overlap */
+}
+
+.artist-card:hover .social-icons-overlay {
+    opacity: 1; /* Show on hover */
+}
+
+.social-icons-overlay a {
+    color: #e4e2dd;
+    font-size: 0.8em; /* Really small font size for icons - ensure this matches the desired size */
+    transition: color 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+.social-icons-overlay a:hover {
+    color: #c9c7c2;
+}
+
+/* Ensure existing .artist-card styles don't conflict,
+   especially `box-shadow` and `transform` on hover,
+   they should apply to the card container.
+   The image specific hover effect should be on the `img` itself.
+*/
+.artist-card:hover {
+    transform: translateY(-10px); /* Lift effect on hover (existing) */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Existing shadow effect */
+}
+
+
+/* Adjust media queries for artist-card details if needed */
+@media (max-width: 767px) {
+    .view-website-link {
+        font-size: 0.8em; /* Adjust for smaller screens */
+    }
+    .social-icons-overlay {
+        gap: 3px;
+        top: 15px;
+        right: 15px;
+    }
+    .social-icons-overlay a {
+        font-size: 0.7em;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Footer Styles */
+footer {
+    background-color: #1a1a1a; /* Darker background for the footer */
+    color: #e4e2dd;
+    padding: 30px 20px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+#footer-content-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-left h6 {
+    margin: 0;
+    font-weight: normal; /* Removes default bold for h6 */
+    font-size: 1em; /* Ensures consistency with other text */
+    font-family: 'Luckiest Guy', cursive, sans-serif; /* Apply your desired font */
+}
+
+.footer-left h6 a {
+    color: #e4e2dd;
+    text-decoration: none;
+    margin-right: 20px; /* Space between links */
+    transition: color 0.3s ease;
+    text-transform: lowercase; /* Matches your site's style */
+}
+
+.footer-left h6 a:last-child {
+    margin-right: 0; /* No margin on the last link */
+}
+
+.footer-left h6 a:hover {
+    color: #c9c7c2;
+}
+
+.footer-right ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 50px; /* Space between social icons */
+}
+
+.footer-right ul li a {
+    color: #e4e2dd;
+    font-size: 1.5em; /* Adjust size of icons */
+    transition: color 0.3s ease;
+}
+
+.footer-right ul li a:hover {
+    color: #c9c7c2;
+}
+
+/* Responsive adjustments for Footer */
+@media (max-width: 767px) {
+    #footer-content-wrapper {
+        flex-direction: column; /* Stack items vertically on mobile */
+        gap: 20px; /* Space between stacked sections */
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%; /* Take full width */
+        text-align: center;
+    }
+
+    .footer-left h6 a {
+        display: block; /* Stack links vertically */
+        margin: 10px 0; /* Adjust spacing for stacked links */
+    }
+
+    .footer-right ul {
+        justify-content: center; /* Center social icons */
+        gap: 15px; /* Slightly less gap on smaller screens */
+    }
+}
