@@ -5,35 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Murnane Records</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
     <header id="main-header">
         <div class="header-content">
             <div class="logo">
-                <img src="path/to/your/murnane-records-logo.png" alt="Murnane Records Logo">
+                <img src="murnanerecords.png" alt="Murnane Records Logo">
             </div>
-            <nav class="desktop-nav">
-                <div class="menu-icon">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
+
+            <nav class="main-nav">
                 <ul class="menu-list">
                     <li><a href="#">shop</a></li>
                     <li><a href="#">artists</a></li>
                     <li><a href="#">videos</a></li>
                     <li><a href="#">subscribe</a></li>
                 </ul>
-            </nav>
-            <nav class="mobile-nav">
-                <ul class="mobile-menu-list">
-                    <li><a href="#">shop</a></li>
-                    <li><a href="#">artists</a></li>
-                    <li><a href="#">videos</a></li>
-                    <li><a href="#">subscribe</a></li>
-                </ul>
-                <div class="mobile-menu-toggle">
-                    <div class="bar"></div>
+                <div class="menu-toggle"> <div class="bar"></div>
                     <div class="bar"></div>
                     <div class="bar"></div>
                 </div>
@@ -45,16 +37,30 @@
         <section id="hero-carousel" class="artist-carousel">
             <div class="carousel-inner">
                 <div class="carousel-item">
-                    <img src="path/to/artist-image-1.jpg" alt="Artist 1">
-                </div>
+                    <img src="pictures/artists/leelanddaniel.jpg" alt="Leeland Daniel">
+                    <div class="artist-name">leeland daniel</div> </div>
                 <div class="carousel-item">
-                    <img src="path/to/artist-image-2.jpg" alt="Artist 2">
-                </div>
-                <div class="carousel-item">
-                    <img src="path/to/artist-image-3.jpg" alt="Artist 3">
-                </div>
+                    <img src="pictures/artists/amydukemurnane.jpg" alt="Amy Duke Murnane">
+                    <div class="artist-name">amy duke murnane</div> </div>
                 </div>
         </section>
+
+        <section id="artists-section" class="content-section">
+            <div class="section-title">
+                <h2>our artists</h2>
+            </div>
+            <div class="artists-grid">
+                <div class="artist-card">
+                    <img src="pictures/artists/square/ld-square.jpg" alt="Leeland Daniel Profile">
+                    <h3>leeland daniel</h3>
+                </div>
+                <div class="artist-card">
+                    <img src="pictures/artists/amydukemurnane_profile.jpg" alt="Amy Duke Murnane Profile">
+                    <h3>amy duke murnane</h3>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script src="js/header-carousel.js"></script>
