@@ -679,3 +679,332 @@ footer {
         gap: 15px; /* Slightly less gap on smaller screens */
     }
 }
+
+/* Cookie Consent Pop-up Styling */
+.cookie-consent-popup {
+    /* Positioning for Close to Bottom & Horizontal Centering */
+    position: fixed;
+    bottom: 20px; /* Adjust this value to control distance from the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Only horizontal centering */
+
+    /* Box Model & Appearance */
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for a floating effect */
+    border-radius: 0; /* NO rounded corners */
+    padding: 20px 30px; /* Adjusted padding: top/bottom 20px, left/right 30px */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+
+    /* Dimensions - WIDER BOX */
+    width: 95%; /* Make it wider on most screens */
+    max-width: 900px; /* Significantly wider for larger screens */
+    max-height: 90vh; /* Max height relative to viewport height */
+    overflow-y: auto; /* Enable scrolling if content exceeds max-height */
+
+    /* Hiding/Showing with transition for opacity/visibility */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, bottom 0.4s ease-in-out;
+    z-index: 1000;
+    
+    font-family: Arial, sans-serif;
+}
+
+.cookie-consent-popup.show {
+    opacity: 1;
+    visibility: visible;
+    bottom: 20px; /* Ensure it moves to this position when 'show' class is added */
+}
+
+.cookie-consent-content {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    transition: height 0.3s ease-in-out;
+    display: flex; /* Use flexbox for content layout */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Space out message and buttons */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Gap between message and buttons/links */
+}
+
+/* Initial Cookie View */
+.cookie-view {
+    display: none;
+    text-align: left;
+    width: 100%; /* Ensure views take full width when active */
+}
+
+.cookie-view.active {
+    display: block;
+}
+
+.cookie-message {
+    font-size: 13px; /* REALLY SMALL FONT SIZE */
+    font-family: Arial, sans-serif;
+    line-height: 1.4; /* Adjusted line height for readability */
+    margin-bottom: 0; /* Remove bottom margin as flexbox handles spacing */
+    color: #333;
+    flex-grow: 1; /* Allow message to take up available space */
+    max-width: calc(100% - 200px); /* Adjust max-width to leave space for buttons, will be overridden by media queries */
+}
+
+.cookie-links {
+    margin-bottom: 0; /* Remove bottom margin */
+    white-space: nowrap; /* Keep links inline if possible */
+    text-align: center;
+}
+
+.cookie-links .privacy-policy-link {
+    color: #000; /* Standard link color */
+    text-decoration: none;
+    font-size: 12px; /* Smaller font size for links */
+    text-align: center;
+}
+
+.cookie-links .privacy-policy-link:hover {
+    text-decoration: underline;
+}
+
+.cookie-buttons {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the RIGHT */
+    gap: 10px; /* Space between buttons */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.cookie-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.cookie-button:hover {
+    background-color: #333;
+}
+
+.cookie-button-centered {
+    display: block; /* Make it a block element */
+    margin: 20px auto; /* Center horizontally and add some top/bottom margin */
+    width: fit-content; /* Allow it to take only the necessary width */
+    max-width: 100%; /* Ensure it doesn't overflow on small screens */
+}
+
+/* Detailed Cookie View */
+.murnane-music-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.murnane-music-logo img {
+    max-width: 150px; /* Adjust logo size */
+    height: auto;
+}
+
+.detailed-cookie-text {
+    font-size: 12px; /* VERY SMALL FONT SIZE */
+    line-height: 1.5;
+    margin-bottom: 10px; /* Slightly reduced margin */
+    color: #555;
+}
+
+.detailed-cookie-text .text-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.detailed-cookie-text .text-link-default {
+    text-decoration: none;
+}
+
+.detailed-cookie-text .text-link:hover {
+    text-decoration: underline;
+}
+
+.cookie-checkboxes {
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    flex-wrap: wrap; /* Allow checkboxes to wrap to the next line on smaller screens */
+    align-items: center; /* Vertically align items in the row */
+    justify-content: center; /* Center checkboxes horizontally within their container */
+    gap: 20px; /* Space between checkbox items */
+    margin: 15px 0; /* Keep existing margin */
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0; /* Remove individual item bottom margin as gap handles spacing */
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Custom Checkbox Styling */
+.checkbox-item input[type="checkbox"] {
+    /* Hide the default checkbox */
+    -webkit-appearance: none; /* For Safari/Chrome */
+    -moz-appearance: none;    /* For Firefox */
+    appearance: none;         /* Standard property */
+    border: 1px solid #ccc; /* Give it a subtle border if you want */
+    width: 18px;            /* Size of your custom square */
+    height: 18px;
+    border-radius: 3px;     /* Slightly rounded corners, adjust if needed */
+    margin-right: 8px;      /* Keep existing margin */
+    cursor: pointer;
+    position: relative;     /* Needed for positioning the checkmark pseudo-element */
+    display: inline-block; /* Ensure it behaves like a block for sizing */
+    vertical-align: middle; /* Align with text */
+    flex-shrink: 0; /* Prevent shrinking in flex container */
+}
+
+/* Style the custom background when unchecked */
+.checkbox-item input[type="checkbox"] {
+    background-color: white; /* Default background for unchecked */
+    border-color: #555; /* Darker border for the checkbox box */
+}
+
+/* Style the custom background when checked */
+.checkbox-item input[type="checkbox"]:checked {
+    background-color: black; /* Black background when checked */
+    border-color: black; /* Make border black too when checked */
+}
+
+/* Create the custom checkmark */
+.checkbox-item input[type="checkbox"]:checked::before {
+    content: '\2713'; /* Unicode character for a checkmark (✓) */
+    font-size: 14px; /* Size of the checkmark */
+    color: white;    /* White checkmark color */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the checkmark */
+    line-height: 1; /* Adjust line-height to prevent extra spacing */
+}
+
+/* Special styling for disabled essential checkbox */
+.checkbox-item.essential input[type="checkbox"] {
+    background-color: #eee; /* Lighter background for disabled */
+    border-color: #bbb;
+    cursor: not-allowed;
+}
+
+.checkbox-item.essential input[type="checkbox"]:checked::before {
+    color: #999; /* Greyer checkmark for disabled checked */
+}
+
+.checkbox-item.essential {
+    cursor: not-allowed;
+}
+
+.checkbox-item.essential label {
+    color: #888;
+}
+
+.checkbox-item.essential:hover {
+    cursor: not-allowed;
+}
+
+.checkbox-item.essential input[type="checkbox"][disabled] {
+    cursor: inherit;
+}
+
+.detailed-links {
+    margin-top: 15px; /* Adjusted margin */
+    text-align: center;
+}
+
+.detailed-links .text-link {
+    color: #000;
+    text-decoration: none;
+    margin: 0 8px; /* Reduced margin */
+    font-size: 12px; /* Smaller font size for detailed links */
+}
+
+.detailed-links .text-link:hover {
+    text-decoration: underline;
+}
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 768px) {
+    .cookie-consent-popup {
+        width: 98%; /* Even wider on smaller tablets */
+        padding: 15px 20px; /* Adjusted padding */
+        bottom: 15px; /* Adjust distance for tablets */
+    }
+
+    .cookie-consent-content {
+        flex-direction: column; /* Stack message, links, and buttons vertically */
+        align-items: flex-start; /* Align all items to the left when stacked */
+        gap: 10px;
+    }
+
+    .cookie-message {
+        width: 100%; /* Take full width when stacked */
+        max-width: 100%; /* Override previous max-width */
+        margin-bottom: 0; /* Ensure no extra margin */
+        font-size: 12px; /* Slightly smaller for tablets */
+    }
+
+    .cookie-links {
+        width: 100%; /* Take full width when stacked */
+        text-align: left; /* Align links to left */
+    }
+
+    .cookie-buttons {
+        width: 100%; /* Take full width */
+        justify-content: flex-end; /* Still align buttons to the right within their full width */
+        gap: 8px;
+    }
+
+    .cookie-button {
+        flex-grow: 1; /* Allow buttons to grow to fill space if needed */
+        font-size: 13px; /* Slightly smaller button text */
+        padding: 10px 12px;
+    }
+
+    .checkbox-item,
+    .detailed-cookie-text {
+        font-size: 11px; /* Even smaller for detailed text/checkboxes on mobile */
+    }
+    .detailed-links .text-link {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cookie-consent-popup {
+        width: 98%; /* Nearly full width on very small screens */
+        max-width: 98%; /* Override max-width for small screens */
+        padding: 10px 15px; /* Further reduce padding */
+        bottom: 10px; /* Adjust distance for mobile */
+    }
+
+    .cookie-message {
+        font-size: 11px; /* Smallest font for mobile */
+        line-height: 1.3;
+    }
+
+    .cookie-buttons {
+        flex-direction: column; /* Force stack buttons vertically on small phones */
+        gap: 8px;
+    }
+
+    .cookie-button {
+        width: 100%; /* Make buttons full width */
+        font-size: 12px;
+        padding: 10px 10px;
+    }
+    .checkbox-item,
+    .detailed-cookie-text {
+        font-size: 10px; /* Smallest font for detailed text/checkboxes on smallest screens */
+    }
+    .detailed-links .text-link {
+        font-size: 10px;
+    }
+}
