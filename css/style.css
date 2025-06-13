@@ -7,21 +7,22 @@
 
 /* Add your chosen Google Font @import here, e.g.: */
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&display=swap');
 
 main {
-    margin-top: 68px; /* Adjust this value to match your header's actual height */
+   /* margin-top: 68px; /* Adjust this value to match your header's actual height */
 }
 
 /* Universal Styles & Body */
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100vh;
     overflow-y: auto;
 }
 
 body {
-    font-family: 'Luckiest Guy', cursive, sans-serif;
+    font-family: 'Caprasimo', sans-serif;
     background-color: #292929;
     color: #e4e2dd;
 }
@@ -32,9 +33,15 @@ body {
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* This ensures the header is on top of the carousel */
-    /* transition: background-color 0.3s ease-in-out; */
-    background-color: #292929;
+    z-index: 1000;
+    /* --- CRITICAL FIX: Change 'transparent' to 'rgba(41, 41, 41, 0)' --- */
+    background-color: rgba(41, 41, 41, 0); /* Start transparent, using the same base color as scrolled */
+    transition: background-color 0.2s ease-in-out; /* Smooth transition for background */
+    box-shadow: none; /* No shadow initially */
+}
+
+#main-header.scrolled {
+    background-color: #292929; /* Your desired solid background color (opaque) */
 }
 
 #main-header .header-content {
@@ -49,6 +56,7 @@ body {
     width: 300px;
     height: 38px;
     display: block;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.5));
 }
 
 /* Main Navigation Styles */
@@ -63,6 +71,7 @@ body {
     padding: 0;
     display: flex;
     gap: 30px;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.5));
 }
 
 .main-nav .menu-list li a {
@@ -110,12 +119,16 @@ body {
 
 /* Hero Carousel - UPDATED TO FILL SCREEN HEIGHT ON DESKTOP */
 .artist-carousel {
-    position: relative;
+    position: relative; /* Keep this */
     overflow: hidden;
 
-    /* Desktop Styles: Full width, fills screen height (behind header) */
+    /* Desktop Styles: Full width, fills screen height (now includes behind header) */
     width: 100vw;
-    height: calc(100vh - 68px); /* Changed to fill the viewport height */
+    height: 100vh; /* Set to 100vh to ensure it covers the entire viewport */
+    top: 0; /* Align to the very top of the viewport */
+    left: 0;
+    /* You might want to add a z-index here, but lower than the header, e.g., 999 */
+    z-index: 1; /* Ensure it's below the header (which is 1000) */
 }
 
 .carousel-inner {
@@ -153,10 +166,8 @@ body {
     position: absolute;
     bottom: 40px;
     left: 50px;
-    font-family: 'Luckiest Guy', cursive, sans-serif;
     color: #e4e2dd;
     /* font-size: 3.5em; Removed to manage size of elements inside */
-    text-transform: lowercase;
     z-index: 50;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     pointer-events: none; /* Allows clicks to pass through to carousel items initially */
@@ -170,29 +181,37 @@ body {
 }
 
 .artist-name::before {
-    content: attr(data-artist-name); /* Use a data attribute for the name */
-    font-size: 3.5em; /* Apply original font size here */
+    content: attr(data-artist-name);
+    /* NEW: Use clamp() for fluid font size */
+    /* This will scale between 2rem (32px) and 4.5rem (72px),
+       using 4vw (4% of viewport width) as the preferred fluid size. */
+    font-size: clamp(2rem, 4vw, 4.5rem);
     text-transform: lowercase;
 }
 
 /* Style for the new subtitle */
 .artist-subtitle {
-    font-size: 1.2em; /* Adjust subtitle font size */
+    /* NEW: Use clamp() for fluid font size */
+    /* This will scale between 1rem (16px) and 1.5rem (24px),
+       using 1.5vw (1.5% of viewport width) as the preferred fluid size. */
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
     color: #e4e2dd;
-    margin: 0; /* Remove default paragraph margin */
-    text-transform: capitalize; /* Or lowercase, depending on desired style */
-    pointer-events: auto; /* Make subtitle clickable if it were a link */
+    margin: 0;
+    pointer-events: auto;
 }
 
 /* Style for the new button */
 .carousel-button {
-    pointer-events: auto; /* Make the button clickable */
-    background-color: #e4e2dd; /* Button background color */
-    color: #292929; /* Button text color */
-    padding: 12px 25px;
+    /* NEW: Use clamp() for fluid font size */
+    /* This will scale between 0.9rem (14.4px) and 1.2rem (19.2px),
+       using 1vw (1% of viewport width) as the preferred fluid size. */
+    font-size: clamp(0.9rem, 1vw, 1.2rem);
+    pointer-events: auto;
+    background-color: #e4e2dd;
+    color: #292929;
+    padding: 12px 25px; /* Keep padding for now, but could also be made fluid */
     text-decoration: none;
     border-radius: 5px;
-    font-size: 1em;
     text-transform: lowercase;
     transition: background-color 0.3s ease, color 0.3s ease;
     border: none;
@@ -203,6 +222,8 @@ body {
     background-color: #c9c7c2;
     color: #1a1a1a;
 }
+
+
 
 
 /* Responsive Design - Mobile First Approach */
@@ -318,31 +339,6 @@ body {
         /* It's okay that display:flex, flex-direction: column, align-items: flex-start are global */
     }
     
-    .artist-name::before {
-        font-size: 2em; /* Adjusted font size for the artist name on mobile */
-        line-height: 1.2; /* Adjust line height for better readability if it wraps */
-        text-transform: lowercase; /* Keep consistent with global style */
-        /* Ensure text-wrapping properties are here too if they were removed */
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
-    .artist-subtitle {
-        font-size: 1em; /* Adjusted subtitle font size for mobile */
-        line-height: 1.3; /* Ensure subtitle wraps nicely */
-        /* Ensure text-wrapping properties are here too if they were removed */
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
-    .carousel-button {
-        padding: 10px 20px; /* Smaller button for mobile */
-        font-size: 0.9em; /* Smaller font size for button */
-        /* Removed other button styles as they are global and inherited */
-    }
-    
 }
 
 @media (min-width: 768px) {
@@ -382,45 +378,60 @@ body {
 
 .artists-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Forces exactly 4 columns on desktop */
-    gap: 40px; /* Space between cards */
+    /* Updated gap to 3px */
+    gap: 3px; /* Space between each square */
+    /* Forces exactly 4 columns on desktop */
+    grid-template-columns: repeat(4, 1fr);
     max-width: 1200px; /* Max width for the grid to prevent it from getting too wide */
     margin: 0 auto; /* Center the grid */
 }
 
 .artist-card {
-    background-color: #1a1a1a;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Removed card-specific styling */
+    /* background-color: #1a1a1a; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); */
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+
+    overflow: hidden; /* Keep this to clip content outside the square */
+    position: relative; /* Keep this if you want the overlay/content to be positioned relative to the card */
 }
 
+/* Remove the hover effect for the main card container */
 .artist-card:hover {
-    transform: translateY(-10px); /* Lift effect on hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    /* transform: translateY(-10px); */
+    /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); */
 }
 
 .artist-card img {
+    position: absolute; /* Position relative to .artist-card-inner */
+    top: 0;
+    left: 0;
     width: 100%;
-    /* Removed fixed height. Using aspect-ratio for square images. */
-    aspect-ratio: 1 / 1; /* Makes the image maintain a 1:1 (square) aspect ratio */
-    object-fit: cover; /* Ensures images fill the square space without distortion */
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the square without distortion */
     display: block;
+    transition: transform 0.3s ease; /* Keep for the subtle zoom on hover */
 }
 
-.artist-card h3 {
-    font-size: 1.8em;
+.artist-grid-name {
+    position: absolute; /* Position relative to .artist-card-inner */
+    bottom: 10px; /* Distance from bottom */
+    left: 10px; /* Distance from left */
+    color: #e4e2dd; /* Text color */
+    font-size: 1.5em; /* Adjust font size as needed */
     text-transform: lowercase;
-    color: #e4e2dd;
-    margin: 20px 15px; /* Spacing for the name */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* For readability over images */
+    z-index: 2; /* Ensures it's above the image but potentially below the overlay */
+    pointer-events: none; /* Allows clicks to pass through to the overlay/card */
+    margin: 0; /* Remove default h3 margin */
 }
 
 /* Responsive adjustments for artists section */
 @media (max-width: 991px) { /* Adjust breakpoint for tablets/smaller desktops */
     .artists-grid {
         grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
-        gap: 30px;
+        gap: 3px; /* Keep gap consistent */
     }
 }
 
@@ -436,18 +447,21 @@ body {
 
     .artists-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
-        gap: 20px;
+        gap: 3px; /* Keep gap consistent */
     }
 
-    .artist-card h3 {
-        font-size: 1.5em;
-        margin: 15px 10px;
+    .artist-grid-name {
+        font-size: 1.2em; /* Smaller font for mobile */
+        bottom: 8px; /* Adjust spacing */
+        left: 8px; /* Adjust spacing */
     }
+
 }
 
 @media (max-width: 480px) { /* For very small mobile screens */
     .artists-grid {
         grid-template-columns: 1fr; /* Single column on very small screens */
+        gap: 3px; /* Keep gap consistent */
     }
 }
 
@@ -458,10 +472,15 @@ body {
 }
 
 .artist-card-inner {
-    position: relative; /* This new div will hold the image and text, and its size will define the overlay area */
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Ensure it takes full height of the card */
+    position: relative; /* Essential for absolute positioning of children */
+    width: 100%; /* Take full width of parent .artist-card */
+    aspect-ratio: 1 / 1; /* Makes the element a perfect square */
+    overflow: hidden; /* Ensure anything overflowing the square is clipped */
+
+    /* Removed flex properties as it's no longer a flex container for image/text */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* height: 100%; */
 }
 
 .artist-card img {
@@ -472,12 +491,17 @@ body {
     transition: transform 0.3s ease; /* Smooth scale effect for image */
 }
 
-.artist-card h3 {
-    flex-grow: 1; /* Allows h3 to take remaining space below the image */
-    display: flex;
-    align-items: center; /* Vertically center if needed */
-    justify-content: center; /* Horizontally center if needed */
-    text-align: center;
+.artist-grid-name {
+    position: absolute; /* Position relative to .artist-card-inner */
+    bottom: 10px; /* Distance from bottom */
+    left: 10px; /* Distance from left */
+    color: #e4e2dd; /* Text color */
+    font-size: 1.5em; /* Adjust font size as needed */
+    text-transform: lowercase;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* For readability over images */
+    z-index: 2; /* Ensures it's above the image but potentially below the overlay */
+    pointer-events: none; /* Allows clicks to pass through to the overlay/card */
+    margin: 0; /* Remove default h3 margin */
 }
 
 
@@ -488,24 +512,21 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    display: flex; /* Changed to flex */
-    flex-direction: column; /* Stack content vertically within the overlay */
-    justify-content: space-between; /* Pushes top content to top, bottom content to bottom */
-    align-items: center; /* Center content horizontally within the overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none;
-    padding: 20px; /* Add padding to control spacing from edges */
+    /* pointer-events: none;  Keep this line as it was */
+    padding: 20px;
     box-sizing: border-box;
+    z-index: 3; /* Ensure overlay is above the name */
 }
 
 .artist-card:hover .artist-overlay {
     opacity: 1;
-    pointer-events: all;
-}
-
-.artist-card:hover .artist-card-inner img {
-    transform: scale(1.05);
+    pointer-events: all; /* Important: Make overlay clickable on hover */
 }
 
 .overlay-top-content {
@@ -574,10 +595,6 @@ body {
     they should apply to the card container.
     The image specific hover effect should be on the `img` itself.
 */
-.artist-card:hover {
-    transform: translateY(-10px); /* Lift effect on hover (existing) */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Existing shadow effect */
-}
 
 
 /* Adjust media queries for artist-card details if needed */
@@ -619,7 +636,6 @@ footer {
     margin: 0;
     font-weight: normal; /* Removes default bold for h6 */
     font-size: 1em; /* Ensures consistency with other text */
-    font-family: 'Luckiest Guy', cursive, sans-serif; /* Apply your desired font */
 }
 
 .footer-left h6 a {
